@@ -1,4 +1,4 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, render_template
 from flask_cors import CORS
 import requests
 import json
@@ -18,7 +18,7 @@ if not os.path.exists(config['server']['storageFolder']):
 
 @app.route("/")
 def index():
-    return "hello world"
+    return render_template("index.html")
 
 @app.route("/template/template.json")
 def template():
