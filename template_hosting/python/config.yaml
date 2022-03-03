@@ -1,0 +1,5 @@
+cedar:
+    apiKey: your_cedar_api_key_here
+    templateId: 9b08353a-2d39-424d-9a4d-8113647099e2
+server:
+    storageFolder: ./data

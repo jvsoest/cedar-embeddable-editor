@@ -17,11 +17,11 @@ export class AppComponent {
     //templateDownloadParamName: '9ff482bacac84c499655ab58efdf590a',
 
     showDataSaver: true,
-    dataSaverEndpointUrl: 'http://localhost:8000/datasave.php',
+    dataSaverEndpointUrl: 'http://localhost:5000/api/cedar/store',
 
-    sampleTemplateLocationPrefix: 'http://localhost/',
+    sampleTemplateLocationPrefix: 'http://localhost:5000/',
     // sampleTemplateLocationPrefix: 'https://component.staging.metadatacenter.org/cedar-embeddable-editor-sample-templates/',
-    loadSampleTemplateName: 'test',                          //folder where template.json should be stored
+    loadSampleTemplateName: 'template',                          //folder where template.json should be stored
     showSampleTemplateLinks: false,                          //shows template selection box
     expandedSampleTemplateLinks: false,                      //not sure what this one does? disabled for now
     showTemplateRenderingRepresentation: false,               //hide template render info for production
