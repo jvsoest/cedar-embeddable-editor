@@ -5,6 +5,7 @@ import json
 import uuid
 import yaml
 import os
+from rdflib import Graph
 
 app = Flask(__name__)
 CORS(app)
@@ -33,9 +34,21 @@ def template():
 @app.route("/api/cedar/store", methods=["POST"])
 def store():
     session_id = uuid.uuid4()
-    fileName = os.path.join(config['server']['storageFolder'], f"{session_id}.json")
-    with open(fileName, "w") as f:
-        json.dump(request.get_json(), f, indent=4)
+    fileNameJson = os.path.join(config['server']['storageFolder'], f"{session_id}.jsonld")
+    fileNameTurtle = os.path.join(config['server']['storageFolder'], f"{session_id}.ttl")
+
+    data_to_store = request.get_json()
+    data_to_store = data_to_store["metadata"]
+    data_to_store["schema:isBasedOn"] = f"https://repo.metadatacenter.org/templates/{config['cedar']['templateId']}"
+    data_to_store["@id"] = f"http://localhost/template-instances/{session_id}"
+
+    with open(fileNameJson, "w") as f:
+        json.dump(data_to_store, f, indent=4)
+    
+    g = Graph()
+    g.parse(data=json.dumps(data_to_store), format='json-ld')
+    g.serialize(destination=fileNameTurtle)
+
     return {"status": "OK"}
 
 if __name__ == "__main__":
