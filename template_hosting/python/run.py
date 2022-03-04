@@ -31,9 +31,13 @@ def template():
     response = requests.get(f"https://repo.metadatacenter.org/templates/{config['cedar']['templateId']}", headers=headers)
     return Response(response.text, mimetype='application/json')
 
-@app.route("/api/cedar/store", methods=["POST"])
+@app.route("/api/cedar/store", methods=["POST", "PUT"])
 def store():
+    
     session_id = uuid.uuid4()
+    if request.method == "PUT":
+        session_id = request.args.get("id")
+    
     fileNameJson = os.path.join(config['server']['storageFolder'], f"{session_id}.jsonld")
     fileNameTurtle = os.path.join(config['server']['storageFolder'], f"{session_id}.ttl")
 
@@ -49,7 +53,7 @@ def store():
     g.parse(data=json.dumps(data_to_store), format='json-ld')
     g.serialize(destination=fileNameTurtle)
 
-    return {"status": "OK"}
+    return {"id": f"{session_id}"}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
