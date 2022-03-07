@@ -44,3 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Flask hosting files
+template_hosting/data
+template_hosting/env
